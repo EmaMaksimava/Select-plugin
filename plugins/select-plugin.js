@@ -3,13 +3,13 @@ const getTemplate = (data = [], placeholder) => {
 
   const items = data.map(item => {
     return `
-    <li class="select__item">${item.value}</li>
+    <li class="select__item" data-type="item" data-value=${item.id}>${item.value}</li>
     `
   })
 
   return `
     <div class="select__input" data-type="input">
-      <span>${text}</span>
+      <span data-type="text">${text}</span>
       <i class="fa-solid fa-angles-down" data-type="arrow"></i>
     </div>
     <div class="select__dropdown">
@@ -25,6 +25,7 @@ export class Select {
   constructor( selector, options) {
     this.nodeElem = document.querySelector(selector);
     this.options = options;
+    this.selectedId = null;
 
     this.#render()
 
@@ -40,11 +41,16 @@ export class Select {
   #setup() {
     this.clickHandler = this.clickHandler.bind(this);
     this.nodeElem.addEventListener('click', this.clickHandler);
-    this.arrowElem = this.nodeElem.querySelector('[data-type="arrow"]')
+    this.arrowElem = this.nodeElem.querySelector('[data-type="arrow"]');
+    this.textElem = this.nodeElem.querySelector('[data-type="text"]')
   }
 
   get isOpen() {
     return this.nodeElem.classList.contains('open');
+  }
+
+  get current() {
+    return this.options.data.find(item => item.id === this.selectedId);
   }
 
 
@@ -57,6 +63,9 @@ export class Select {
         return;
       }
       this.open();
+    } else if (type === 'item') {
+      const id = event.target.dataset.value;
+      this.select(id);
     }
   }
 
@@ -75,5 +84,11 @@ export class Select {
 
   destroy() {
     this.nodeElem.removeEventListener('click', this.clickHandler);
+  }
+
+  select(id) {
+    this.selectedId = id;
+    this.textElem.innerText = this.current.value;
+    this.close();
   }
 }

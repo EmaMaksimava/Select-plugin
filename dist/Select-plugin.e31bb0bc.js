@@ -135,9 +135,9 @@ var getTemplate = function getTemplate() {
   var placeholder = arguments.length > 1 ? arguments[1] : undefined;
   var text = placeholder !== null && placeholder !== void 0 ? placeholder : 'Choose';
   var items = data.map(function (item) {
-    return "\n    <li class=\"select__item\">".concat(item.value, "</li>\n    ");
+    return "\n    <li class=\"select__item\" data-type=\"item\" data-value=".concat(item.id, ">").concat(item.value, "</li>\n    ");
   });
-  return "\n    <div class=\"select__input\" data-type=\"input\">\n      <span>".concat(text, "</span>\n      <i class=\"fa-solid fa-angles-down\" data-type=\"arrow\"></i>\n    </div>\n    <div class=\"select__dropdown\">\n      <ul class=\"select__list\">\n        ").concat(items.join(''), "\n      </ul>\n    </div>\n  ");
+  return "\n    <div class=\"select__input\" data-type=\"input\">\n      <span data-type=\"text\">".concat(text, "</span>\n      <i class=\"fa-solid fa-angles-down\" data-type=\"arrow\"></i>\n    </div>\n    <div class=\"select__dropdown\">\n      <ul class=\"select__list\">\n        ").concat(items.join(''), "\n      </ul>\n    </div>\n  ");
 };
 var _render = /*#__PURE__*/new WeakSet();
 var _setup = /*#__PURE__*/new WeakSet();
@@ -148,6 +148,7 @@ var Select = /*#__PURE__*/function () {
     _classPrivateMethodInitSpec(this, _render);
     this.nodeElem = document.querySelector(selector);
     this.options = options;
+    this.selectedId = null;
     _classPrivateMethodGet(this, _render, _render2).call(this);
     _classPrivateMethodGet(this, _setup, _setup2).call(this);
   }
@@ -155,6 +156,14 @@ var Select = /*#__PURE__*/function () {
     key: "isOpen",
     get: function get() {
       return this.nodeElem.classList.contains('open');
+    }
+  }, {
+    key: "current",
+    get: function get() {
+      var _this = this;
+      return this.options.data.find(function (item) {
+        return item.id === _this.selectedId;
+      });
     }
   }, {
     key: "clickHandler",
@@ -167,6 +176,9 @@ var Select = /*#__PURE__*/function () {
           return;
         }
         this.open();
+      } else if (type === 'item') {
+        var id = event.target.dataset.value;
+        this.select(id);
       }
     }
   }, {
@@ -188,6 +200,13 @@ var Select = /*#__PURE__*/function () {
     value: function destroy() {
       this.nodeElem.removeEventListener('click', this.clickHandler);
     }
+  }, {
+    key: "select",
+    value: function select(id) {
+      this.selectedId = id;
+      this.textElem.innerText = this.current.value;
+      this.close();
+    }
   }]);
   return Select;
 }();
@@ -204,6 +223,7 @@ function _setup2() {
   this.clickHandler = this.clickHandler.bind(this);
   this.nodeElem.addEventListener('click', this.clickHandler);
   this.arrowElem = this.nodeElem.querySelector('[data-type="arrow"]');
+  this.textElem = this.nodeElem.querySelector('[data-type="text"]');
 }
 },{}],"index.js":[function(require,module,exports) {
 "use strict";
@@ -257,7 +277,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "53178" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "53609" + '/');
   ws.onmessage = function (event) {
     checkedAssets = {};
     assetsToAccept = [];
