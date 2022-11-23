@@ -1,6 +1,6 @@
 const getTemplate = () => {
   return `
-    <div class="select__input">
+    <div class="select__input" data-type="input">
       <span> Some text</span>
       <i class="fa-solid fa-angles-down"></i>
     </div>
@@ -23,11 +23,35 @@ export class Select {
     this.nodeElem = document.querySelector(selector);
 
     this.#render()
+
+    this.#setup()
   }
 
-  #render() {
+  #render() { // приватный метод!
     this.nodeElem.classList.add('select');
     this.nodeElem.innerHTML = getTemplate();
+  }
+
+  #setup() {
+    this.clickHandler = this.clickHandler.bind(this);
+    this.nodeElem.addEventListener('click', this.clickHandler);
+  }
+
+  get isOpen() {
+    return this.nodeElem.classList.contains('open');
+  }
+
+
+  clickHandler(event) {
+    const {type} = event.target.dataset;
+    console.log(type);
+    if (type === 'input') {
+      if(this.isOpen) {
+        this.close();
+        return;
+      }
+      this.open();
+    }
   }
 
   open() {
@@ -37,5 +61,9 @@ export class Select {
 
   close() {
     this.nodeElem.classList.remove('open');
+  }
+
+  destroy() {
+    this.nodeElem.removeEventListener('click', this.clickHandler);
   }
 }

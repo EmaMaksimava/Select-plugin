@@ -131,17 +131,38 @@ function _classPrivateMethodInitSpec(obj, privateSet) { _checkPrivateRedeclarati
 function _checkPrivateRedeclaration(obj, privateCollection) { if (privateCollection.has(obj)) { throw new TypeError("Cannot initialize the same private elements twice on an object"); } }
 function _classPrivateMethodGet(receiver, privateSet, fn) { if (!privateSet.has(receiver)) { throw new TypeError("attempted to get private field on non-instance"); } return fn; }
 var getTemplate = function getTemplate() {
-  return "\n    <div class=\"select__input\">\n      <span> Some text</span>\n      <i class=\"fa-solid fa-angles-down\"></i>\n    </div>\n    <div class=\"select__dropdown\">\n      <ul class=\"select__list\">\n        <li class=\"select__item\">React</li>\n        <li class=\"select__item\">Vue</li>\n        <li class=\"select__item\">Redux</li>\n        <li class=\"select__item\">Angular</li>\n        <li class=\"select__item\">Node.js</li>\n        <li class=\"select__item\">Vanilla JS</li>\n      </ul>\n    </div>\n  ";
+  return "\n    <div class=\"select__input\" data-type=\"input\">\n      <span> Some text</span>\n      <i class=\"fa-solid fa-angles-down\"></i>\n    </div>\n    <div class=\"select__dropdown\">\n      <ul class=\"select__list\">\n        <li class=\"select__item\">React</li>\n        <li class=\"select__item\">Vue</li>\n        <li class=\"select__item\">Redux</li>\n        <li class=\"select__item\">Angular</li>\n        <li class=\"select__item\">Node.js</li>\n        <li class=\"select__item\">Vanilla JS</li>\n      </ul>\n    </div>\n  ";
 };
 var _render = /*#__PURE__*/new WeakSet();
+var _setup = /*#__PURE__*/new WeakSet();
 var Select = /*#__PURE__*/function () {
   function Select(selector, options) {
     _classCallCheck(this, Select);
+    _classPrivateMethodInitSpec(this, _setup);
     _classPrivateMethodInitSpec(this, _render);
     this.nodeElem = document.querySelector(selector);
     _classPrivateMethodGet(this, _render, _render2).call(this);
+    _classPrivateMethodGet(this, _setup, _setup2).call(this);
   }
   _createClass(Select, [{
+    key: "isOpen",
+    get: function get() {
+      return this.nodeElem.classList.contains('open');
+    }
+  }, {
+    key: "clickHandler",
+    value: function clickHandler(event) {
+      var type = event.target.dataset.type;
+      console.log(type);
+      if (type === 'input') {
+        if (this.isOpen) {
+          this.close();
+          return;
+        }
+        this.open();
+      }
+    }
+  }, {
     key: "open",
     value: function open() {
       this.nodeElem.classList.add('open');
@@ -151,13 +172,23 @@ var Select = /*#__PURE__*/function () {
     value: function close() {
       this.nodeElem.classList.remove('open');
     }
+  }, {
+    key: "destroy",
+    value: function destroy() {
+      this.nodeElem.removeEventListener('click', this.clickHandler);
+    }
   }]);
   return Select;
 }();
 exports.Select = Select;
 function _render2() {
+  // приватный метод!
   this.nodeElem.classList.add('select');
   this.nodeElem.innerHTML = getTemplate();
+}
+function _setup2() {
+  this.clickHandler = this.clickHandler.bind(this);
+  this.nodeElem.addEventListener('click', this.clickHandler);
 }
 },{}],"index.js":[function(require,module,exports) {
 "use strict";
@@ -192,7 +223,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "53609" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "53178" + '/');
   ws.onmessage = function (event) {
     checkedAssets = {};
     assetsToAccept = [];
