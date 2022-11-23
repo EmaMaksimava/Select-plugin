@@ -94,4 +94,8 @@
   transition: .2s background-color;
 }
 
+.selected {
+  background-color: bisque;
+}
+
 /*# sourceMappingURL=/style.e308ff8e.css.map */

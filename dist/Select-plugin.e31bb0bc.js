@@ -205,6 +205,10 @@ var Select = /*#__PURE__*/function () {
     value: function select(id) {
       this.selectedId = id;
       this.textElem.innerText = this.current.value;
+      this.nodeElem.querySelectorAll('[data-type="item"]').forEach(function (item) {
+        return item.classList.remove('selected');
+      });
+      this.nodeElem.querySelector("[data-value=\"".concat(id, "\"]")).classList.add('selected');
       this.close();
     }
   }]);
@@ -277,7 +281,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "53609" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "53178" + '/');
   ws.onmessage = function (event) {
     checkedAssets = {};
     assetsToAccept = [];

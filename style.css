@@ -93,3 +93,7 @@
   background-color: #fff;
   transition: .2s background-color;
 }
+
+.selected {
+  background-color: bisque;
+}

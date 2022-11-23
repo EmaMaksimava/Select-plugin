@@ -89,6 +89,8 @@ export class Select {
   select(id) {
     this.selectedId = id;
     this.textElem.innerText = this.current.value;
+    this.nodeElem.querySelectorAll('[data-type="item"]').forEach(item => item.classList.remove('selected'));
+    this.nodeElem.querySelector(`[data-value="${id}"]`).classList.add('selected');
     this.close();
   }
 }
