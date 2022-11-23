@@ -1,17 +1,20 @@
-const getTemplate = () => {
+const getTemplate = (data = [], placeholder) => {
+  const text = placeholder ?? 'Choose';
+
+  const items = data.map(item => {
+    return `
+    <li class="select__item">${item.value}</li>
+    `
+  })
+
   return `
     <div class="select__input" data-type="input">
-      <span> Some text</span>
+      <span>${text}</span>
       <i class="fa-solid fa-angles-down" data-type="arrow"></i>
     </div>
     <div class="select__dropdown">
       <ul class="select__list">
-        <li class="select__item">React</li>
-        <li class="select__item">Vue</li>
-        <li class="select__item">Redux</li>
-        <li class="select__item">Angular</li>
-        <li class="select__item">Node.js</li>
-        <li class="select__item">Vanilla JS</li>
+        ${items.join('')}
       </ul>
     </div>
   `
@@ -21,6 +24,7 @@ const getTemplate = () => {
 export class Select {
   constructor( selector, options) {
     this.nodeElem = document.querySelector(selector);
+    this.options = options;
 
     this.#render()
 
@@ -28,8 +32,9 @@ export class Select {
   }
 
   #render() { // приватный метод!
+    const {placeholder, data} = this.options;
     this.nodeElem.classList.add('select');
-    this.nodeElem.innerHTML = getTemplate();
+    this.nodeElem.innerHTML = getTemplate(data, placeholder);
   }
 
   #setup() {

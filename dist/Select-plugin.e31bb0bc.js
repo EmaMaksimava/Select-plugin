@@ -131,7 +131,13 @@ function _classPrivateMethodInitSpec(obj, privateSet) { _checkPrivateRedeclarati
 function _checkPrivateRedeclaration(obj, privateCollection) { if (privateCollection.has(obj)) { throw new TypeError("Cannot initialize the same private elements twice on an object"); } }
 function _classPrivateMethodGet(receiver, privateSet, fn) { if (!privateSet.has(receiver)) { throw new TypeError("attempted to get private field on non-instance"); } return fn; }
 var getTemplate = function getTemplate() {
-  return "\n    <div class=\"select__input\" data-type=\"input\">\n      <span> Some text</span>\n      <i class=\"fa-solid fa-angles-down\" data-type=\"arrow\"></i>\n    </div>\n    <div class=\"select__dropdown\">\n      <ul class=\"select__list\">\n        <li class=\"select__item\">React</li>\n        <li class=\"select__item\">Vue</li>\n        <li class=\"select__item\">Redux</li>\n        <li class=\"select__item\">Angular</li>\n        <li class=\"select__item\">Node.js</li>\n        <li class=\"select__item\">Vanilla JS</li>\n      </ul>\n    </div>\n  ";
+  var data = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
+  var placeholder = arguments.length > 1 ? arguments[1] : undefined;
+  var text = placeholder !== null && placeholder !== void 0 ? placeholder : 'Choose';
+  var items = data.map(function (item) {
+    return "\n    <li class=\"select__item\">".concat(item.value, "</li>\n    ");
+  });
+  return "\n    <div class=\"select__input\" data-type=\"input\">\n      <span>".concat(text, "</span>\n      <i class=\"fa-solid fa-angles-down\" data-type=\"arrow\"></i>\n    </div>\n    <div class=\"select__dropdown\">\n      <ul class=\"select__list\">\n        ").concat(items.join(''), "\n      </ul>\n    </div>\n  ");
 };
 var _render = /*#__PURE__*/new WeakSet();
 var _setup = /*#__PURE__*/new WeakSet();
@@ -141,6 +147,7 @@ var Select = /*#__PURE__*/function () {
     _classPrivateMethodInitSpec(this, _setup);
     _classPrivateMethodInitSpec(this, _render);
     this.nodeElem = document.querySelector(selector);
+    this.options = options;
     _classPrivateMethodGet(this, _render, _render2).call(this);
     _classPrivateMethodGet(this, _setup, _setup2).call(this);
   }
@@ -187,8 +194,11 @@ var Select = /*#__PURE__*/function () {
 exports.Select = Select;
 function _render2() {
   // приватный метод!
+  var _this$options = this.options,
+    placeholder = _this$options.placeholder,
+    data = _this$options.data;
   this.nodeElem.classList.add('select');
-  this.nodeElem.innerHTML = getTemplate();
+  this.nodeElem.innerHTML = getTemplate(data, placeholder);
 }
 function _setup2() {
   this.clickHandler = this.clickHandler.bind(this);
@@ -200,7 +210,26 @@ function _setup2() {
 
 var _selectPlugin = require("./plugins/select-plugin");
 var select = new _selectPlugin.Select('#select', {
-  //settings
+  placeholder: 'Choose from list',
+  data: [{
+    id: '1',
+    value: 'Angular'
+  }, {
+    id: '2',
+    value: 'React'
+  }, {
+    id: '3',
+    value: 'Redux'
+  }, {
+    id: '4',
+    value: 'Node.js'
+  }, {
+    id: '5',
+    value: 'Vanilla JS'
+  }, {
+    id: '6',
+    value: 'Vue.js'
+  }]
 });
 window.s = select;
 },{"./plugins/select-plugin":"plugins/select-plugin.js"}],"C:/Users/FluffyEmma/AppData/Roaming/npm/node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
@@ -228,7 +257,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "53609" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "53178" + '/');
   ws.onmessage = function (event) {
     checkedAssets = {};
     assetsToAccept = [];
