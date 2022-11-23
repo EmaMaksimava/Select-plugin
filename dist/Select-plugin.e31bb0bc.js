@@ -131,7 +131,7 @@ function _classPrivateMethodInitSpec(obj, privateSet) { _checkPrivateRedeclarati
 function _checkPrivateRedeclaration(obj, privateCollection) { if (privateCollection.has(obj)) { throw new TypeError("Cannot initialize the same private elements twice on an object"); } }
 function _classPrivateMethodGet(receiver, privateSet, fn) { if (!privateSet.has(receiver)) { throw new TypeError("attempted to get private field on non-instance"); } return fn; }
 var getTemplate = function getTemplate() {
-  return "\n    <div class=\"select__input\" data-type=\"input\">\n      <span> Some text</span>\n      <i class=\"fa-solid fa-angles-down\"></i>\n    </div>\n    <div class=\"select__dropdown\">\n      <ul class=\"select__list\">\n        <li class=\"select__item\">React</li>\n        <li class=\"select__item\">Vue</li>\n        <li class=\"select__item\">Redux</li>\n        <li class=\"select__item\">Angular</li>\n        <li class=\"select__item\">Node.js</li>\n        <li class=\"select__item\">Vanilla JS</li>\n      </ul>\n    </div>\n  ";
+  return "\n    <div class=\"select__input\" data-type=\"input\">\n      <span> Some text</span>\n      <i class=\"fa-solid fa-angles-down\" data-type=\"arrow\"></i>\n    </div>\n    <div class=\"select__dropdown\">\n      <ul class=\"select__list\">\n        <li class=\"select__item\">React</li>\n        <li class=\"select__item\">Vue</li>\n        <li class=\"select__item\">Redux</li>\n        <li class=\"select__item\">Angular</li>\n        <li class=\"select__item\">Node.js</li>\n        <li class=\"select__item\">Vanilla JS</li>\n      </ul>\n    </div>\n  ";
 };
 var _render = /*#__PURE__*/new WeakSet();
 var _setup = /*#__PURE__*/new WeakSet();
@@ -166,11 +166,15 @@ var Select = /*#__PURE__*/function () {
     key: "open",
     value: function open() {
       this.nodeElem.classList.add('open');
+      this.arrowElem.classList.remove('fa-angles-down');
+      this.arrowElem.classList.add('fa-angles-up');
     }
   }, {
     key: "close",
     value: function close() {
       this.nodeElem.classList.remove('open');
+      this.arrowElem.classList.remove('fa-angles-up');
+      this.arrowElem.classList.add('fa-angles-down');
     }
   }, {
     key: "destroy",
@@ -189,6 +193,7 @@ function _render2() {
 function _setup2() {
   this.clickHandler = this.clickHandler.bind(this);
   this.nodeElem.addEventListener('click', this.clickHandler);
+  this.arrowElem = this.nodeElem.querySelector('[data-type="arrow"]');
 }
 },{}],"index.js":[function(require,module,exports) {
 "use strict";
@@ -223,7 +228,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "53178" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "53609" + '/');
   ws.onmessage = function (event) {
     checkedAssets = {};
     assetsToAccept = [];
