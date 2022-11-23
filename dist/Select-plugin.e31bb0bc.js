@@ -124,18 +124,49 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.Select = void 0;
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
 function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); Object.defineProperty(Constructor, "prototype", { writable: false }); return Constructor; }
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-var Select = /*#__PURE__*/_createClass(function Select() {
-  _classCallCheck(this, Select);
-});
+function _classPrivateMethodInitSpec(obj, privateSet) { _checkPrivateRedeclaration(obj, privateSet); privateSet.add(obj); }
+function _checkPrivateRedeclaration(obj, privateCollection) { if (privateCollection.has(obj)) { throw new TypeError("Cannot initialize the same private elements twice on an object"); } }
+function _classPrivateMethodGet(receiver, privateSet, fn) { if (!privateSet.has(receiver)) { throw new TypeError("attempted to get private field on non-instance"); } return fn; }
+var getTemplate = function getTemplate() {
+  return "\n    <div class=\"select__input\">\n      <span> Some text</span>\n      <i class=\"fa-solid fa-angles-down\"></i>\n    </div>\n    <div class=\"select__dropdown\">\n      <ul class=\"select__list\">\n        <li class=\"select__item\">React</li>\n        <li class=\"select__item\">Vue</li>\n        <li class=\"select__item\">Redux</li>\n        <li class=\"select__item\">Angular</li>\n        <li class=\"select__item\">Node.js</li>\n        <li class=\"select__item\">Vanilla JS</li>\n      </ul>\n    </div>\n  ";
+};
+var _render = /*#__PURE__*/new WeakSet();
+var Select = /*#__PURE__*/function () {
+  function Select(selector, options) {
+    _classCallCheck(this, Select);
+    _classPrivateMethodInitSpec(this, _render);
+    this.nodeElem = document.querySelector(selector);
+    _classPrivateMethodGet(this, _render, _render2).call(this);
+  }
+  _createClass(Select, [{
+    key: "open",
+    value: function open() {
+      this.nodeElem.classList.add('open');
+    }
+  }, {
+    key: "close",
+    value: function close() {
+      this.nodeElem.classList.remove('open');
+    }
+  }]);
+  return Select;
+}();
 exports.Select = Select;
+function _render2() {
+  this.nodeElem.classList.add('select');
+  this.nodeElem.innerHTML = getTemplate();
+}
 },{}],"index.js":[function(require,module,exports) {
 "use strict";
 
 var _selectPlugin = require("./plugins/select-plugin");
-var select = new _selectPlugin.Select();
+var select = new _selectPlugin.Select('#select', {
+  //settings
+});
+window.s = select;
 },{"./plugins/select-plugin":"plugins/select-plugin.js"}],"C:/Users/FluffyEmma/AppData/Roaming/npm/node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
 var global = arguments[3];
 var OVERLAY_ID = '__parcel__error__overlay__';
