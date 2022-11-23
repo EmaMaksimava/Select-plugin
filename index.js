@@ -9,7 +9,11 @@ const select = new Select('#select', {
     {id: '4', value: 'Node.js'},
     {id: '5', value: 'Vanilla JS'},
     {id: '6', value: 'Vue.js'}
-  ]
+  ],
+
+  onSelect(item) {
+    console.log('Selected item', item);
+  }
 });
 
 window.s = select;

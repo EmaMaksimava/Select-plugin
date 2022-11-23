@@ -169,8 +169,7 @@ var Select = /*#__PURE__*/function () {
     key: "clickHandler",
     value: function clickHandler(event) {
       var type = event.target.dataset.type;
-      console.log(type);
-      if (type === 'input') {
+      if (type === 'input' || type === 'text') {
         if (this.isOpen) {
           this.close();
           return;
@@ -179,6 +178,8 @@ var Select = /*#__PURE__*/function () {
       } else if (type === 'item') {
         var id = event.target.dataset.value;
         this.select(id);
+      } else {
+        this.close();
       }
     }
   }, {
@@ -199,6 +200,7 @@ var Select = /*#__PURE__*/function () {
     key: "destroy",
     value: function destroy() {
       this.nodeElem.removeEventListener('click', this.clickHandler);
+      this.nodeElem.innerHTML = '';
     }
   }, {
     key: "select",
@@ -209,6 +211,7 @@ var Select = /*#__PURE__*/function () {
         return item.classList.remove('selected');
       });
       this.nodeElem.querySelector("[data-value=\"".concat(id, "\"]")).classList.add('selected');
+      this.options.onSelect ? this.options.onSelect(this.current) : null;
       this.close();
     }
   }]);
@@ -253,7 +256,10 @@ var select = new _selectPlugin.Select('#select', {
   }, {
     id: '6',
     value: 'Vue.js'
-  }]
+  }],
+  onSelect: function onSelect(item) {
+    console.log('Selected item', item);
+  }
 });
 window.s = select;
 },{"./plugins/select-plugin":"plugins/select-plugin.js"}],"C:/Users/FluffyEmma/AppData/Roaming/npm/node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {

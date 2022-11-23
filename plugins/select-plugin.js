@@ -56,8 +56,7 @@ export class Select {
 
   clickHandler(event) {
     const {type} = event.target.dataset;
-    console.log(type);
-    if (type === 'input') {
+    if (type === 'input' || type === 'text') {
       if(this.isOpen) {
         this.close();
         return;
@@ -66,6 +65,8 @@ export class Select {
     } else if (type === 'item') {
       const id = event.target.dataset.value;
       this.select(id);
+    } else {
+      this.close();
     }
   }
 
@@ -84,6 +85,7 @@ export class Select {
 
   destroy() {
     this.nodeElem.removeEventListener('click', this.clickHandler);
+    this.nodeElem.innerHTML = '';
   }
 
   select(id) {
@@ -91,6 +93,7 @@ export class Select {
     this.textElem.innerText = this.current.value;
     this.nodeElem.querySelectorAll('[data-type="item"]').forEach(item => item.classList.remove('selected'));
     this.nodeElem.querySelector(`[data-value="${id}"]`).classList.add('selected');
+    this.options.onSelect ? this.options.onSelect(this.current) : null;
     this.close();
   }
 }
